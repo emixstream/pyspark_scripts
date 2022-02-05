@@ -1,0 +1,39 @@
+version: '3'
+services:
+  spark:
+    image: jupyter/pyspark-notebook:ad3574d3c5c7
+    container_name: pyspark-jupyter
+    ports:
+      - 8888:8888
+      - 4040:4040
+    volumes:
+      - ./src:/home/jovyan
+    environment:
+      GRANT_SUDO: 'yes'
+      ENABLE_HTTPS: 'false'
+    user: "root"
+
+  mongo:
+    image: mongo:4.2.1-bionic
+    container_name: mongo
+    ports:
+      - 27017:27017
+    restart: always
+    #command: --smallfiles
+    volumes:
+      - ./mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mysql:
+    image: mysql:8.0.17
+    container_name: mysql
+    ports:
+      - 3306:3306
+    volumes:
+     - ./scripts:/scripts
+     - ./mysql:/var/lib/mysql
+    environment:
+     MYSQL_ROOT_PASSWORD: example
+    command: --secure-file-priv=/scripts

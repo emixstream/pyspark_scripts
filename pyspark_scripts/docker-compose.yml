@@ -1,0 +1,14 @@
+version: '3'
+services:
+  spark:
+    image: jupyter/pyspark-notebook:latest
+    container_name: pyspark-jupyter
+    ports:
+      - 8888:8888
+      - 4040:4040
+    volumes:
+      - ./notebooks:/home/jovyan
+    environment:
+      GRANT_SUDO: 'yes'
+      ENABLE_HTTPS: 'false'
+    user: "root"
